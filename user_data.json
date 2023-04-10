@@ -362,5 +362,22 @@
             "PSYCH101",
             "BIOL101"
         ]
+    },
+    "msa8779": {
+        "questions": [
+            "What is your favorite professor at NYU?",
+            "What is the name of your first pet?"
+        ],
+        "answers": [
+            "Amos",
+            "Billy"
+        ],
+        "current_classes": [
+            "ENGL111",
+            "PHYS101"
+        ],
+        "past_classes": [
+            "CSCI101"
+        ]
     }
 }
