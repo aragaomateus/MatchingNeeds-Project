@@ -94,7 +94,8 @@ def look_up_page(engine):
         st.session_state["step"] = 0
         st.session_state["input_answers"] = []
         st.session_state["net_id"] = ""
-    # user = ""
+    user = dbf.get_user_by_net_id(engine, st.session_state["net_id"])
+
     if st.session_state["step"] == 0:
         st.session_state["net_id"] = st.text_input("Net ID:")
         user = dbf.get_user_by_net_id(engine, st.session_state["net_id"])
@@ -105,21 +106,21 @@ def look_up_page(engine):
                 return
             st.session_state["step"] = 1
             
-    try:
-        if st.session_state["step"] == 1 and user['questions'] is not None:
-            for idx, question in enumerate(user['questions'][:st.session_state["step"]]):
-                st.markdown(f"**Security Question {idx + 1}:**")
-                st.write(question)
-                input_answer = st.text_input(f"Answer {idx + 1}:", value=st.session_state["input_answers"][idx] if st.session_state["input_answers"] else '')
 
-                if st.button(f"Submit Answer {idx + 1}"):
-                    if input_answer.lower() != user["answers"][idx].lower():
-                        st.warning("Incorrect security answer.")
-                    else:
-                        st.session_state["input_answers"].append(input_answer)
-                        st.session_state["step"] += 1
-    except:
-        st.warning("Please, reload the page.")
+    if st.session_state["step"] == 1 and user['questions'] is not None:
+        for idx, question in enumerate(user['questions'][:st.session_state["step"]]):
+            st.markdown(f"**Security Question {idx + 1}:**")
+            st.write(question)
+            input_answer = st.text_input(f"Answer {idx + 1}:", value=st.session_state["input_answers"][idx] if st.session_state["input_answers"] else '')
+
+            if st.button(f"Submit Answer {idx + 1}"):
+                if input_answer.lower() != user["answers"][idx].lower():
+                    st.warning("Incorrect security answer.")
+                else:
+                    st.session_state["input_answers"].append(input_answer)
+                    st.session_state["step"] += 1
+
+        
     if st.session_state["step"] == 2 and user['questions'] is not None:
         question = user['questions'][1]
         st.markdown("**Security Question 2:**")
